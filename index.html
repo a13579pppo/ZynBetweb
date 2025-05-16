@@ -1,22 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ZynBet - Start</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZynBet WebApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #0f0f0f;
+      color: #fff;
+      padding: 20px;
+    }
+    #main-app {
+      display: none;
+    }
+    .btn {
+      background: #04d9ff;
+      color: #000;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h2>Welcome to ZynBet</h2>
-  <button onclick="checkStart()">Start Bot</button>
+
+  <!-- Welcome screen before bot is started -->
+  <div id="welcome-screen">
+    <h2>Welcome to ZynBet</h2>
+    <p>Please start the bot on Telegram to access the betting features.</p>
+  </div>
+
+  <!-- Main app after start -->
+  <div id="main-app">
+    <h1>ZynBet Dashboard</h1>
+    <p>Place your bets, earn rewards, and climb the leaderboard!</p>
+    <button class="btn" onclick="alert('Bet feature coming soon!')">Start Betting</button>
+  </div>
 
   <script>
-    function checkStart() {
-      const initData = Telegram.WebApp.initData;
-      if (initData && initData.length > 0) {
-        window.location.href = "join.html";
-      } else {
-        alert("Please open from Telegram bot via Start.");
-      }
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const initData = tg.initData || "";
+    if (initData.length > 0) {
+      // User has started the bot
+      document.getElementById("welcome-screen").style.display = "none";
+      document.getElementById("main-app").style.display = "block";
+    } else {
+      // User hasn't started the bot
+      document.getElementById("welcome-screen").style.display = "block";
+      document.getElementById("main-app").style.display = "none";
     }
   </script>
+
 </body>
 </html>
