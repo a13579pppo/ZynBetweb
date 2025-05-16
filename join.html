@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><title>Check Membership</title></head>
+<body>
+  <h3>Checking membership...</h3>
+  <div id="status"></div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    fetch(`https://your-server.com/check_membership?user_id=${tg.initDataUnsafe.user.id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.joined) {
+          window.location.href = "dashboard.html";
+        } else {
+          document.getElementById("status").innerText = "Please join the required groups.";
+        }
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "Error checking membership.";
+      });
+  </script>
+</body>
+</html>
