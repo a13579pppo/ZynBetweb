@@ -1,72 +1,52 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZynBet - Bet on Trends</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZynBet</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/styles.min.css">
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
     body {
       background: #0f0f0f;
-      color: #fff;
-      padding: 20px;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .card {
-      background: #1a1a1a;
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 20px;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
-    }
-    .btn {
-      display: inline-block;
-      background: #4e44ce;
       color: white;
-      padding: 10px 16px;
-      border-radius: 12px;
-      font-weight: bold;
-      text-decoration: none;
-      margin-top: 12px;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
     }
-    .hidden { display: none; }
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #20c997;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div id="welcome" class="card">
-      <h1>Welcome to ZynBet</h1>
-      <p>Start the bot from Telegram to place bets and earn rewards!</p>
-    </div><div id="dashboard" class="card hidden">
-  <h1>Hello, <span id="username"></span>!</h1>
-  <p>Your TON balance: <strong id="balance">-</strong></p>
-  <a href="#" class="btn" onclick="alert('Coming soon!')">Place a Bet</a>
-  <a href="#" class="btn" onclick="alert('Referral system loading')">Invite Friends</a>
-</div>
+  <h1>Welcome to ZynBet</h1>
+  <p>Connect your Tonkeeper wallet to start predicting and earning!</p>
+  <div id="ton-connect-button"></div>
 
-  </div>  <script>
-    const url = new URL(window.location.href);
-    const tgWebApp = window.Telegram.WebApp;
+  <script type="module">
+    import { TonConnectUI } from "https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/+esm";
 
-    if (tgWebApp.initDataUnsafe && tgWebApp.initDataUnsafe.user) {
-      document.getElementById('welcome').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
+    const tonConnectUI = new TonConnectUI({
+      manifestUrl: 'https://zynbet.vercel.app/tonconnect-manifest.json', // تغییر بده به دامنه خودت
+      buttonRootId: 'ton-connect-button'
+    });
 
-      const user = tgWebApp.initDataUnsafe.user;
-      document.getElementById('username').textContent = user.first_name;
-      document.getElementById('balance').textContent = '15 TON';
-    } else {
-      tgWebApp.expand();
-    }
-  </script></body>
+    tonConnectUI.uiOptions = {
+      language: 'en'
+    };
+
+    // اتصال به کیف پول را بررسی کن
+    tonConnectUI.connectionRestored.then(() => {
+      if (tonConnectUI.wallet) {
+        console.log("Wallet connected:", tonConnectUI.wallet.account.address);
+      }
+    });
+  </script>
+</body>
 </html>
