@@ -2,60 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZynBet WebApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZynBet</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
+      background-color: #111;
+      color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      background: #0f0f0f;
-      color: #fff;
-      padding: 20px;
+      padding: 40px 20px;
     }
-    #main-app {
+    .hidden {
       display: none;
     }
-    .btn {
-      background: #04d9ff;
-      color: #000;
-      padding: 10px 20px;
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #3390ec;
+      color: white;
+      font-size: 16px;
       margin-top: 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Welcome screen before bot is started -->
-  <div id="welcome-screen">
-    <h2>Welcome to ZynBet</h2>
-    <p>Please start the bot on Telegram to access the betting features.</p>
-  </div>
+<div id="not-telegram" class="container hidden">
+  <h2>Welcome to ZynBet</h2>
+  <p>Please start the bot on Telegram to access the betting features.</p>
+</div>
 
-  <!-- Main app after start -->
-  <div id="main-app">
-    <h1>ZynBet Dashboard</h1>
-    <p>Place your bets, earn rewards, and climb the leaderboard!</p>
-    <button class="btn" onclick="alert('Bet feature coming soon!')">Start Betting</button>
-  </div>
+<div id="main-content" class="container hidden">
+  <h2>ZynBet Dashboard</h2>
+  <p>Welcome, <span id="username"></span>!</p>
+  <!-- محتوای اصلی اینجا میاد -->
+</div>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+<script>
+  const tg = window.Telegram.WebApp;
+  const user = tg.initDataUnsafe.user;
 
-    const initData = tg.initData || "";
-    if (initData.length > 0) {
-      // User has started the bot
-      document.getElementById("welcome-screen").style.display = "none";
-      document.getElementById("main-app").style.display = "block";
-    } else {
-      // User hasn't started the bot
-      document.getElementById("welcome-screen").style.display = "block";
-      document.getElementById("main-app").style.display = "none";
-    }
-  </script>
+  if (!user) {
+    document.getElementById("not-telegram").classList.remove("hidden");
+  } else {
+    document.getElementById("main-content").classList.remove("hidden");
+    document.getElementById("username").textContent = user.first_name || "User";
+    tg.expand(); // برای اینکه وب‌اپ به صورت full screen باز شه
+  }
+</script>
 
 </body>
 </html>
