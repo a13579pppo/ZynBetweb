@@ -1,0 +1,8 @@
+{
+  "url": "https://a13579ppo.github.io/ZynBet/",
+  "name": "ZynBet",
+  "iconUrl": "https://a13579ppo.github.io/ZynBet/icon.png",
+  "termsOfUseUrl": "https://a13579ppo.github.io/ZynBet/terms",
+  "privacyPolicyUrl": "https://a13579ppo.github.io/ZynBet/privacy",
+  "platforms": ["telegram", "ios", "android", "web"]
+}
