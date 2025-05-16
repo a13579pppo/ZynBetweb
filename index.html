@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZynBet</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/styles.min.css">
+  <meta charset="UTF-8">
+  <title>ZynBet - Trend Betting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
   <style>
     body {
-      background: #0f0f0f;
-      color: white;
-      font-family: sans-serif;
+      background: #0e0e1a;
+      color: #fff;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 2rem;
+      padding: 30px;
+    }
+    h1 {
+      color: #29b6f6;
     }
     button {
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      background-color: #20c997;
+      background: #29b6f6;
       border: none;
-      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 16px;
       color: white;
+      border-radius: 10px;
       cursor: pointer;
+      margin: 10px;
+    }
+    #wallet-address {
+      margin-top: 20px;
+      word-break: break-all;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to ZynBet</h1>
-  <p>Connect your Tonkeeper wallet to start predicting and earning!</p>
-  <div id="ton-connect-button"></div>
+  <p>Connect your Tonkeeper wallet and start betting on trends!</p>
+  <button id="connect-button">Connect Wallet</button>
+  <div id="wallet-address"></div>
 
-  <script type="module">
-    import { TonConnectUI } from "https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/+esm";
-
-    const tonConnectUI = new TonConnectUI({
-      manifestUrl: 'https://zynbet.vercel.app/tonconnect-manifest.json', // تغییر بده به دامنه خودت
-      buttonRootId: 'ton-connect-button'
+  <script>
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://yourusername.github.io/ZynBet/tonconnect-manifest.json", // اینو با یوزرنیم خودت اصلاح کن
     });
 
-    tonConnectUI.uiOptions = {
-      language: 'en'
-    };
-
-    // اتصال به کیف پول را بررسی کن
-    tonConnectUI.connectionRestored.then(() => {
-      if (tonConnectUI.wallet) {
-        console.log("Wallet connected:", tonConnectUI.wallet.account.address);
+    document.getElementById("connect-button").onclick = async () => {
+      const connected = await tonConnectUI.connectWallet();
+      if (connected?.account?.address) {
+        document.getElementById("wallet-address").innerText =
+          "Wallet Address:\n" + connected.account.address;
+      } else {
+        document.getElementById("wallet-address").innerText = "Wallet not connected.";
       }
-    });
+    };
   </script>
 </body>
 </html>
